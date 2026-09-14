@@ -18,6 +18,7 @@ use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use Rollerworks\Bundle\SearchBundle\RollerworksSearchBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -66,12 +67,12 @@ class AppKernel extends Kernel
     {
         $bundles = [
             new FrameworkBundle(),
+            new MonologBundle(),
             // new \Symfony\Bundle\TwigBundle\TwigBundle(),
-
             new RollerworksSearchBundle(),
         ];
 
-        if (class_exists(DoctrineBundle::class)) {
+        if (str_contains($this->config, 'api_platform') || str_contains($this->config, 'doctrine')) {
             $bundles[] = new DoctrineBundle();
         }
 
